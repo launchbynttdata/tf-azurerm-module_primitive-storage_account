@@ -101,12 +101,6 @@ variable "location" {
   type        = string
 }
 
-variable "tags" {
-  description = "A map of tags to add to all resources"
-  type        = map(string)
-  default     = {}
-}
-
 variable "account_tier" {
   description = "value of the account_tier"
   type        = string

@@ -2,6 +2,7 @@ package common
 
 import (
 	"context"
+	"os"
 	"strings"
 	"testing"
 
@@ -11,15 +12,15 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	armStorage "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/launchbynttdata/lcaf-component-terratest/lib/azure/login"
 	"github.com/launchbynttdata/lcaf-component-terratest/types"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestStorageAccount(t *testing.T, ctx types.TestContext) {
-
-	envVarMap := login.GetEnvironmentVariables()
-	subscriptionID := envVarMap["subscriptionID"]
+	subscriptionId := os.Getenv("ARM_SUBSCRIPTION_ID")
+	if len(subscriptionId) == 0 {
+		t.Fatal("ARM_SUBSCRIPTION_ID environment variable is not set")
+	}
 
 	credential, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
@@ -32,7 +33,7 @@ func TestStorageAccount(t *testing.T, ctx types.TestContext) {
 		},
 	}
 
-	storageAccountClient, err := armStorage.NewAccountsClient(subscriptionID, credential, &options)
+	storageAccountClient, err := armStorage.NewAccountsClient(subscriptionId, credential, &options)
 	if err != nil {
 		t.Fatalf("Error getting Storage Account client: %v", err)
 	}
