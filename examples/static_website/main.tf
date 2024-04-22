@@ -12,7 +12,7 @@
 
 module "storage_account" {
   source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/storage_account/azurerm"
-  version = "~> 1.0"
+  version = "~> 1.1"
 
   resource_group_name                    = module.resource_group.name
   location                               = var.location
@@ -47,7 +47,6 @@ module "resource_group" {
   }
 }
 
-# This module generates the resource-name of resources based on resource_type, naming_prefix, env etc.
 module "resource_names" {
   source  = "d2lqlh14iel5k2.cloudfront.net/module_library/resource_name/launch"
   version = "~> 1.0"
@@ -62,4 +61,14 @@ module "resource_names" {
   maximum_length          = each.value.max_length
   logical_product_family  = var.logical_product_family
   logical_product_service = var.logical_product_service
+}
+
+resource "null_resource" "upload_static_website_files" {
+  provisioner "local-exec" {
+    command = <<-EOF
+      find ./site_files -type f -exec az storage blob upload --file {} -c \$web --account-name ${local.storage_account_name} --only-show-errors \;
+EOF
+  }
+
+  depends_on = [module.storage_account]
 }

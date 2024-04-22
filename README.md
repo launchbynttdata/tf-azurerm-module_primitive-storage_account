@@ -106,7 +106,7 @@ If `make check` target is successful, developer is good to commit the code to pr
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.95.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.100.0 |
 
 ## Modules
 
@@ -155,4 +155,5 @@ No modules.
 | <a name="output_storage_containers"></a> [storage\_containers](#output\_storage\_containers) | storage container resource map |
 | <a name="output_storage_queues"></a> [storage\_queues](#output\_storage\_queues) | storage queues resource map |
 | <a name="output_storage_shares"></a> [storage\_shares](#output\_storage\_shares) | storage share resource map |
+| <a name="output_primary_web_endpoint"></a> [primary\_web\_endpoint](#output\_primary\_web\_endpoint) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
