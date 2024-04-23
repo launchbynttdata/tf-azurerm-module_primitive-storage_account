@@ -87,3 +87,23 @@ resource "azurerm_storage_queue" "storage_queues" {
   name                 = each.value.name
   storage_account_name = azurerm_storage_account.storage_account.name
 }
+
+resource "azurerm_storage_account_network_rules" "network_rules" {
+  count = var.network_rules != null ? 1 : 0
+
+  storage_account_id = azurerm_storage_account.storage_account.id
+
+  default_action             = var.network_rules.default_action
+  bypass                     = var.network_rules.bypass
+  ip_rules                   = var.network_rules.ip_rules
+  virtual_network_subnet_ids = var.network_rules.virtual_network_subnet_ids
+
+  dynamic "private_link_access" {
+    for_each = var.network_rules.private_link_access
+
+    content {
+      endpoint_resource_id = each.value.endpoint_resource_id
+      endpoint_tenant_id   = each.value.endpoint_tenant_id
+    }
+  }
+}
