@@ -39,3 +39,7 @@ output "storage_shares" {
   description = "storage share resource map"
   value       = try(azurerm_storage_share.storage_shares, null)
 }
+
+output "primary_web_endpoint" {
+  value = azurerm_storage_account.storage_account.primary_web_endpoint
+}

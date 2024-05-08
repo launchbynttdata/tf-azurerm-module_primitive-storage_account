@@ -63,3 +63,5 @@ azure_env.sh
 
 # VS Code
 .vscode/
+
+.DS_Store

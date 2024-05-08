@@ -1,4 +1,10 @@
-# storage_account
+# static_website
+
+Demonstrates using an Azure Storage Account with the Static Website functionality.
+
+This example uses a local-exec script to upload the contents of the static_website/ directory to the storage account once it is created to the `$web` container that is created by default.
+
+By default, the `primary_web_endpoint` that is created for your storage account will serve files from the `$web` container anonymously, and changes to the permissions of the `$web` container don't impact behavior of the `primary_web_endpoint`. Setting a different access level on the container does impact behavior through the standard `primary_blob_endpoint`. For more detail on access levels, see https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website#impact-of-setting-the-access-level-on-the-web-container.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -7,22 +13,27 @@
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | <= 1.5.5 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.77 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2 |
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_null"></a> [null](#provider\_null) | 3.2.2 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_storage_account"></a> [storage\_account](#module\_storage\_account) | d2lqlh14iel5k2.cloudfront.net/module_primitive/storage_account/azurerm | ~> 1.0 |
+| <a name="module_storage_account"></a> [storage\_account](#module\_storage\_account) | d2lqlh14iel5k2.cloudfront.net/module_primitive/storage_account/azurerm | ~> 1.1 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | d2lqlh14iel5k2.cloudfront.net/module_primitive/resource_group/azurerm | ~> 1.0 |
 | <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | d2lqlh14iel5k2.cloudfront.net/module_library/resource_name/launch | ~> 1.0 |
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [null_resource.upload_static_website_files](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 
 ## Inputs
 
@@ -32,7 +43,7 @@ No resources.
 | <a name="input_instance_env"></a> [instance\_env](#input\_instance\_env) | Number that represents the instance of the environment. | `number` | `0` | no |
 | <a name="input_instance_resource"></a> [instance\_resource](#input\_instance\_resource) | Number that represents the instance of the resource. | `number` | `0` | no |
 | <a name="input_logical_product_family"></a> [logical\_product\_family](#input\_logical\_product\_family) | (Required) Name of the product family for which the resource is created.<br>    Example: org\_name, department\_name. | `string` | `"launch"` | no |
-| <a name="input_logical_product_service"></a> [logical\_product\_service](#input\_logical\_product\_service) | (Required) Name of the product service for which the resource is created.<br>    For example, backend, frontend, middleware etc. | `string` | `"network"` | no |
+| <a name="input_logical_product_service"></a> [logical\_product\_service](#input\_logical\_product\_service) | (Required) Name of the product service for which the resource is created.<br>    For example, backend, frontend, middleware etc. | `string` | `"storage"` | no |
 | <a name="input_class_env"></a> [class\_env](#input\_class\_env) | (Required) Environment where resource is going to be deployed. For example. dev, qa, uat | `string` | `"dev"` | no |
 | <a name="input_location"></a> [location](#input\_location) | target resource group resource mask | `string` | n/a | yes |
 | <a name="input_account_tier"></a> [account\_tier](#input\_account\_tier) | value of the account\_tier | `string` | `"Standard"` | no |
@@ -50,6 +61,7 @@ No resources.
 | <a name="input_blob_change_feed_enabled"></a> [blob\_change\_feed\_enabled](#input\_blob\_change\_feed\_enabled) | Is the blobl service properties for change feed enabled for blob | `bool` | `false` | no |
 | <a name="input_blob_last_access_time_enabled"></a> [blob\_last\_access\_time\_enabled](#input\_blob\_last\_access\_time\_enabled) | Is the last access time based tracking enabled | `bool` | `false` | no |
 | <a name="input_blob_container_delete_retention_policy"></a> [blob\_container\_delete\_retention\_policy](#input\_blob\_container\_delete\_retention\_policy) | Specify the number of days that the container should be retained. Set 0 to disable | `number` | `0` | no |
+| <a name="input_network_rules"></a> [network\_rules](#input\_network\_rules) | An object defining rules around network access for the Storage Account. | <pre>object({<br>    default_action             = optional(string, "Deny")<br>    bypass                     = optional(list(string), ["AzureServices", "Logging", "Metrics"])<br>    ip_rules                   = optional(list(string), [])<br>    virtual_network_subnet_ids = optional(list(string), [])<br>    private_link_access = optional(list(object({<br>      endpoint_resource_id = string<br>      endpoint_tenant_id   = optional(string, null)<br>    })), [])<br>  })</pre> | `null` | no |
 
 ## Outputs
 
@@ -58,4 +70,5 @@ No resources.
 | <a name="output_id"></a> [id](#output\_id) | The ID of the storage account. |
 | <a name="output_name"></a> [name](#output\_name) | Name of the storage account. |
 | <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | The name of the resource group in which the storage account is created. |
+| <a name="output_web_endpoint"></a> [web\_endpoint](#output\_web\_endpoint) | The endpoint URL for blob storage in the primary location. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

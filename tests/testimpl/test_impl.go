@@ -2,6 +2,8 @@ package common
 
 import (
 	"context"
+	"io"
+	"net/http"
 	"os"
 	"strings"
 	"testing"
@@ -48,6 +50,25 @@ func TestStorageAccount(t *testing.T, ctx types.TestContext) {
 		}
 
 		assert.Equal(t, getStorageAccountName(*storageAccount.Name), strings.Trim(getStorageAccountName(storageAccountName), "]"))
+	})
+
+	t.Run("RequestDefaultIndexFromStaticWebsiteStorageAccount", func(t *testing.T) {
+		ctx.EnabledOnlyForTests(t, "static_website")
+
+		webEndpoint := terraform.Output(t, ctx.TerratestTerraformOptions(), "web_endpoint")
+
+		resp, err := http.Get(webEndpoint)
+		if err != nil {
+			t.Errorf("Failure during HTTP GET: %v", err)
+		}
+		defer resp.Body.Close()
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			t.Errorf("Failure reading Body: %v", err)
+		}
+
+		assert.Contains(t, string(body), "<h1>Example Storage Account Website</h1>", "Body did not contain expected response!")
 	})
 }
 

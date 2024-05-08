@@ -31,11 +31,7 @@ func TestStorageAccountModule(t *testing.T) {
 		SetTestConfig(&testimpl.ThisTFModuleConfig{}).
 		SetTestConfigFolderName(testConfigsExamplesFolderDefault).
 		SetTestConfigFileName(infraTFVarFileNameDefault).
-		SetTestSpecificFlags(map[string]types.TestFlags{
-			"complete": {
-				"IS_TERRAFORM_IDEMPOTENT_APPLY": true,
-			},
-		}).
+		SetTestSpecificFlags(map[string]types.TestFlags{}).
 		Build()
 
 	lib.RunSetupTestTeardown(t, *ctx, testimpl.TestStorageAccount)
