@@ -12,7 +12,8 @@
 locals {
   static_website = var.static_website != null ? toset([var.static_website]) : toset([])
   default_tags = {
-    "provisioner" = "terraform"
+    provisioner   = "terraform"
+    resource_name = var.storage_account_name
   }
   tags = merge(local.default_tags, var.tags)
 }
