@@ -147,6 +147,12 @@ variable "blob_container_delete_retention_policy" {
   default     = 0
 }
 
+variable "public_network_access_enabled" {
+  description = "Whether the public network access is enabled. Defaults to `true`."
+  type        = bool
+  default     = true
+}
+
 variable "network_rules" {
   description = "An object defining rules around network access for the Storage Account."
   type = object({

@@ -31,6 +31,7 @@ module "storage_account" {
   blob_change_feed_enabled               = var.blob_change_feed_enabled
   blob_last_access_time_enabled          = var.blob_last_access_time_enabled
   blob_container_delete_retention_policy = var.blob_container_delete_retention_policy
+  public_network_access_enabled          = var.public_network_access_enabled
   network_rules                          = var.network_rules
 
   depends_on = [module.resource_group]
