@@ -32,7 +32,44 @@ module "storage_account" {
   blob_last_access_time_enabled          = var.blob_last_access_time_enabled
   blob_container_delete_retention_policy = var.blob_container_delete_retention_policy
   public_network_access_enabled          = var.public_network_access_enabled
-  network_rules                          = var.network_rules
+
+  depends_on = [module.resource_group]
+}
+
+module "private_endpoint" {
+  source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/private_endpoint/azurerm"
+  version = "~> 1.0"
+
+  endpoint_name       = local.endpoint_name
+  resource_group_name = local.resource_group_name
+  region              = var.location
+
+  subnet_id                       = module.virtual_network.vnet_subnets[0]
+  private_service_connection_name = "example-private-endpoint-storageaccount"
+  private_connection_resource_id  = module.storage_account.id
+  subresource_names               = ["blob"]
+
+  tags = {
+    resource_name = local.endpoint_name
+  }
+}
+
+module "virtual_network" {
+  source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/virtual_network/azurerm"
+  version = "~> 2.0"
+
+  vnet_location       = var.location
+  resource_group_name = local.resource_group_name
+  vnet_name           = local.virtual_network_name
+  address_space       = var.address_space
+  subnet_names        = var.subnet_names
+  subnet_prefixes     = var.subnet_prefixes
+
+  use_for_each = true
+
+  tags = {
+    resource_name = local.virtual_network_name
+  }
 
   depends_on = [module.resource_group]
 }
@@ -62,14 +99,4 @@ module "resource_names" {
   maximum_length          = each.value.max_length
   logical_product_family  = var.logical_product_family
   logical_product_service = var.logical_product_service
-}
-
-resource "null_resource" "upload_static_website_files" {
-  provisioner "local-exec" {
-    command = <<-EOF
-      find ./site_files -type f -exec az storage blob upload --file {} -c \$web --account-name ${local.storage_account_name} --only-show-errors \;
-EOF
-  }
-
-  depends_on = [module.storage_account]
 }

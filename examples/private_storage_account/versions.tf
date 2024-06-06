@@ -9,11 +9,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-locals {
-  static_website = var.static_website != null ? toset([var.static_website]) : toset([])
-  default_tags = {
-    provisioner   = "terraform"
-    resource_name = var.storage_account_name
+
+terraform {
+  required_version = "<= 1.5.5"
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.77"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.2"
+    }
   }
-  tags = merge(local.default_tags, var.tags)
 }

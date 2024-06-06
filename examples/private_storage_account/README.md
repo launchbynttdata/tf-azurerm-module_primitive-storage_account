@@ -17,29 +17,27 @@ By default, the `primary_web_endpoint` that is created for your storage account 
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_null"></a> [null](#provider\_null) | 3.2.2 |
+No providers.
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_storage_account"></a> [storage\_account](#module\_storage\_account) | ../.. | n/a |
+| <a name="module_private_endpoint"></a> [private\_endpoint](#module\_private\_endpoint) | d2lqlh14iel5k2.cloudfront.net/module_primitive/private_endpoint/azurerm | ~> 1.0 |
+| <a name="module_virtual_network"></a> [virtual\_network](#module\_virtual\_network) | d2lqlh14iel5k2.cloudfront.net/module_primitive/virtual_network/azurerm | ~> 2.0 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | d2lqlh14iel5k2.cloudfront.net/module_primitive/resource_group/azurerm | ~> 1.0 |
 | <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | d2lqlh14iel5k2.cloudfront.net/module_library/resource_name/launch | ~> 1.0 |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [null_resource.upload_static_website_files](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+No resources.
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-launch-module\_library-resource\_name to generate resource names | <pre>map(object({<br>    name       = string<br>    max_length = optional(number, 60)<br>  }))</pre> | <pre>{<br>  "resource_group": {<br>    "max_length": 80,<br>    "name": "rg"<br>  },<br>  "storage_account": {<br>    "max_length": 24,<br>    "name": "sa"<br>  }<br>}</pre> | no |
+| <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-launch-module\_library-resource\_name to generate resource names | <pre>map(object({<br>    name       = string<br>    max_length = optional(number, 60)<br>  }))</pre> | <pre>{<br>  "private_endpoint": {<br>    "name": "pe"<br>  },<br>  "resource_group": {<br>    "max_length": 80,<br>    "name": "rg"<br>  },<br>  "storage_account": {<br>    "max_length": 24,<br>    "name": "sa"<br>  },<br>  "virtual_network": {<br>    "name": "vnet"<br>  }<br>}</pre> | no |
 | <a name="input_instance_env"></a> [instance\_env](#input\_instance\_env) | Number that represents the instance of the environment. | `number` | `0` | no |
 | <a name="input_instance_resource"></a> [instance\_resource](#input\_instance\_resource) | Number that represents the instance of the resource. | `number` | `0` | no |
 | <a name="input_logical_product_family"></a> [logical\_product\_family](#input\_logical\_product\_family) | (Required) Name of the product family for which the resource is created.<br>    Example: org\_name, department\_name. | `string` | `"launch"` | no |
@@ -61,8 +59,10 @@ By default, the `primary_web_endpoint` that is created for your storage account 
 | <a name="input_blob_change_feed_enabled"></a> [blob\_change\_feed\_enabled](#input\_blob\_change\_feed\_enabled) | Is the blobl service properties for change feed enabled for blob | `bool` | `false` | no |
 | <a name="input_blob_last_access_time_enabled"></a> [blob\_last\_access\_time\_enabled](#input\_blob\_last\_access\_time\_enabled) | Is the last access time based tracking enabled | `bool` | `false` | no |
 | <a name="input_blob_container_delete_retention_policy"></a> [blob\_container\_delete\_retention\_policy](#input\_blob\_container\_delete\_retention\_policy) | Specify the number of days that the container should be retained. Set 0 to disable | `number` | `0` | no |
-| <a name="input_public_network_access_enabled"></a> [public\_network\_access\_enabled](#input\_public\_network\_access\_enabled) | Whether the public network access is enabled. Defaults to `true`. | `bool` | `true` | no |
-| <a name="input_network_rules"></a> [network\_rules](#input\_network\_rules) | An object defining rules around network access for the Storage Account. | <pre>object({<br>    default_action             = optional(string, "Deny")<br>    bypass                     = optional(list(string), ["AzureServices", "Logging", "Metrics"])<br>    ip_rules                   = optional(list(string), [])<br>    virtual_network_subnet_ids = optional(list(string), [])<br>    private_link_access = optional(list(object({<br>      endpoint_resource_id = string<br>      endpoint_tenant_id   = optional(string, null)<br>    })), [])<br>  })</pre> | `null` | no |
+| <a name="input_public_network_access_enabled"></a> [public\_network\_access\_enabled](#input\_public\_network\_access\_enabled) | Whether the public network access is enabled. Defaults to `true`. | `bool` | `false` | no |
+| <a name="input_address_space"></a> [address\_space](#input\_address\_space) | The address space that is used by the virtual network. | `list(string)` | <pre>[<br>  "172.16.0.0/16"<br>]</pre> | no |
+| <a name="input_subnet_names"></a> [subnet\_names](#input\_subnet\_names) | A list of public subnets inside the vNet. | `list(string)` | <pre>[<br>  "subnet1"<br>]</pre> | no |
+| <a name="input_subnet_prefixes"></a> [subnet\_prefixes](#input\_subnet\_prefixes) | The address prefix to use for the subnet. | `list(string)` | <pre>[<br>  "172.16.0.0/24"<br>]</pre> | no |
 
 ## Outputs
 

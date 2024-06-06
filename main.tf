@@ -20,6 +20,8 @@ resource "azurerm_storage_account" "storage_account" {
   access_tier               = var.access_tier
   account_kind              = var.account_kind
 
+  public_network_access_enabled = var.public_network_access_enabled
+
   dynamic "static_website" {
     for_each = local.static_website
     content {
@@ -62,7 +64,6 @@ resource "azurerm_storage_account" "storage_account" {
       }
     }
   }
-
 
   tags = local.tags
 }

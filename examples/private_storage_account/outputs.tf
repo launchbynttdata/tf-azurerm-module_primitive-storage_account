@@ -9,11 +9,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-locals {
-  static_website = var.static_website != null ? toset([var.static_website]) : toset([])
-  default_tags = {
-    provisioner   = "terraform"
-    resource_name = var.storage_account_name
-  }
-  tags = merge(local.default_tags, var.tags)
+
+output "id" {
+  description = "The ID of the storage account."
+  value       = module.storage_account.id
+}
+
+output "name" {
+  description = "Name of the storage account."
+  value       = local.storage_account_name
+}
+
+output "resource_group_name" {
+  description = "The name of the resource group in which the storage account is created."
+  value       = module.resource_group.name
+}
+
+output "web_endpoint" {
+  description = "The endpoint URL for blob storage in the primary location."
+  value       = module.storage_account.primary_web_endpoint
 }

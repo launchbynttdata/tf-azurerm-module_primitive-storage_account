@@ -11,8 +11,7 @@
 // limitations under the License.
 
 module "storage_account" {
-  source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/storage_account/azurerm"
-  version = "~> 1.0"
+  source = "../.."
 
   resource_group_name                    = module.resource_group.name
   location                               = var.location
