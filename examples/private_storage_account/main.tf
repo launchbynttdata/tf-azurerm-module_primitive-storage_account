@@ -37,7 +37,7 @@ module "storage_account" {
 }
 
 module "private_endpoint" {
-  source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/private_endpoint/azurerm"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/private_endpoint/azurerm"
   version = "~> 1.0"
 
   endpoint_name       = local.endpoint_name
@@ -55,7 +55,7 @@ module "private_endpoint" {
 }
 
 module "virtual_network" {
-  source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/virtual_network/azurerm"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/virtual_network/azurerm"
   version = "~> 2.0"
 
   vnet_location       = var.location
@@ -75,7 +75,7 @@ module "virtual_network" {
 }
 
 module "resource_group" {
-  source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/resource_group/azurerm"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/resource_group/azurerm"
   version = "~> 1.0"
 
   name     = local.resource_group_name
@@ -86,7 +86,7 @@ module "resource_group" {
 }
 
 module "resource_names" {
-  source  = "d2lqlh14iel5k2.cloudfront.net/module_library/resource_name/launch"
+  source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
   version = "~> 1.0"
 
   for_each = var.resource_names_map
