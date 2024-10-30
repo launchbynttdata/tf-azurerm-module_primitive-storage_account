@@ -26,20 +26,41 @@ output "primary_blob_endpoint" {
 }
 
 output "storage_containers" {
-  description = "storage container resource map"
+  description = "Storage container resource map."
   value       = azurerm_storage_container.storage_containers
 }
 
 output "storage_queues" {
-  description = "storage queues resource map"
+  description = "Storage queues resource map."
   value       = try(azurerm_storage_queue.storage_queues, null)
 }
 
 output "storage_shares" {
-  description = "storage share resource map"
+  description = "Storage share resource map."
   value       = try(azurerm_storage_share.storage_shares, null)
 }
 
 output "primary_web_endpoint" {
-  value = azurerm_storage_account.storage_account.primary_web_endpoint
+  description = "Storage account primary web endpoint."
+  value       = azurerm_storage_account.storage_account.primary_web_endpoint
+}
+
+output "primary_connection_string" {
+  description = "Primary connection string of the storage account."
+  value       = azurerm_storage_account.storage_account.primary_connection_string
+}
+
+output "secondary_connection_string" {
+  description = "Secondary connection string of the storage account."
+  value       = azurerm_storage_account.storage_account.secondary_connection_string
+}
+
+output "primary_access_key" {
+  description = "Primary access key of the storage account."
+  value       = azurerm_storage_account.storage_account.primary_access_key
+}
+
+output "secondary_access_key" {
+  description = "Secondary access key of the storage account."
+  value       = azurerm_storage_account.storage_account.secondary_access_key
 }
