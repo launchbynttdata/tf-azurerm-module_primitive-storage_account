@@ -61,7 +61,11 @@ func TestStorageAccount(t *testing.T, ctx types.TestContext) {
 		if err != nil {
 			t.Errorf("Failure during HTTP GET: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if closeErr := resp.Body.Close(); closeErr != nil {
+				t.Errorf("Failure closing Body: %v", closeErr)
+			}
+		}()
 
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
