@@ -34,9 +34,10 @@ resource "azurerm_storage_account" "storage_account" {
     # Valid only for account_kind = BlockBlobStorage or StorageV2
     for_each = ((var.account_kind == "BlockBlobStorage" || var.account_kind == "StorageV2") ? [1] : [])
     content {
-      versioning_enabled       = var.blob_versioning_enabled
-      change_feed_enabled      = var.blob_change_feed_enabled
-      last_access_time_enabled = var.blob_last_access_time_enabled
+      versioning_enabled            = var.blob_versioning_enabled
+      change_feed_enabled           = var.blob_change_feed_enabled
+      change_feed_retention_in_days = var.blob_change_feed_retention_in_days == 0 ? null : var.blob_change_feed_retention_in_days
+      last_access_time_enabled      = var.blob_last_access_time_enabled
 
       dynamic "container_delete_retention_policy" {
         for_each = (var.blob_container_delete_retention_policy == 0 ? [] : [1])
