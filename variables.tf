@@ -135,6 +135,12 @@ variable "blob_change_feed_enabled" {
   default     = false
 }
 
+variable "blob_change_feed_retention_in_days" {
+  description = "Number of days to retain blob change feed. Set 0 to disable"
+  type        = number
+  default     = 0
+}
+
 variable "blob_last_access_time_enabled" {
   description = "Is the last access time based tracking enabled"
   type        = bool
