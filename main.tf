@@ -82,6 +82,11 @@ resource "azurerm_storage_share" "storage_shares" {
   name                 = each.value.name
   storage_account_name = azurerm_storage_account.storage_account.name
   quota                = each.value.quota
+
+  # Azure Backup automatically modifies metadata when protecting file shares
+  lifecycle {
+    ignore_changes = [metadata]
+  }
 }
 
 resource "azurerm_storage_queue" "storage_queues" {
