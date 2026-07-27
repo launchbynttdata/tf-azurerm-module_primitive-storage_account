@@ -20,7 +20,8 @@ resource "azurerm_storage_account" "storage_account" {
   access_tier                = var.access_tier
   account_kind               = var.account_kind
 
-  public_network_access_enabled = var.public_network_access_enabled
+  public_network_access_enabled   = var.public_network_access_enabled
+  allow_nested_items_to_be_public = var.allow_nested_items_to_be_public
 
   dynamic "static_website" {
     for_each = local.static_website
