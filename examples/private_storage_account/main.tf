@@ -44,7 +44,7 @@ module "private_endpoint" {
   resource_group_name = local.resource_group_name
   region              = var.location
 
-  subnet_id                       = module.virtual_network.vnet_subnets[0]
+  subnet_id                       = module.virtual_network.subnet_map[var.subnet_names[0]].id
   private_service_connection_name = "example-private-endpoint-storageaccount"
   private_connection_resource_id  = module.storage_account.id
   subresource_names               = ["blob"]
@@ -56,16 +56,17 @@ module "private_endpoint" {
 
 module "virtual_network" {
   source  = "terraform.registry.launch.nttdata.com/module_primitive/virtual_network/azurerm"
-  version = "~> 2.0"
+  version = "~> 3.2"
 
   vnet_location       = var.location
   resource_group_name = local.resource_group_name
   vnet_name           = local.virtual_network_name
   address_space       = var.address_space
-  subnet_names        = var.subnet_names
-  subnet_prefixes     = var.subnet_prefixes
-
-  use_for_each = true
+  subnets = {
+    for i, name in var.subnet_names : name => {
+      prefix = var.subnet_prefixes[i]
+    }
+  }
 
   tags = {
     resource_name = local.virtual_network_name
