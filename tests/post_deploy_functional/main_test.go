@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	testConfigsExamplesFolderDefault = "../../examples"
+	testConfigsExamplesFolderDefault = "../../examples/storage_account"
 	infraTFVarFileNameDefault        = "test.tfvars"
 )
 
@@ -34,5 +34,5 @@ func TestStorageAccountModule(t *testing.T) {
 		SetTestSpecificFlags(map[string]types.TestFlags{}).
 		Build()
 
-	lib.RunSetupTestTeardown(t, *ctx, testimpl.TestStorageAccount)
+	lib.RunSetupTestTeardown(t, *ctx, testimpl.TestComposableStorageAccount)
 }
