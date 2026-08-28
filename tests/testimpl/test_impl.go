@@ -41,8 +41,8 @@ func TestComposableStorageAccount(t *testing.T, ctx types.TestContext) {
 	}
 
 	t.Run("doesStorageAccountExist", func(t *testing.T) {
-		resourceGroupName := terraform.Output(t, ctx.TerratestTerraformOptions(), "resource_group_name")
-		storageAccountName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
+		resourceGroupName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "resource_group_name")
+		storageAccountName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "name")
 
 		storageAccount, err := storageAccountClient.GetProperties(context.Background(), resourceGroupName, storageAccountName, nil)
 		if err != nil {
@@ -55,7 +55,7 @@ func TestComposableStorageAccount(t *testing.T, ctx types.TestContext) {
 	t.Run("RequestDefaultIndexFromStaticWebsiteStorageAccount", func(t *testing.T) {
 		ctx.EnabledOnlyForTests(t, "static_website")
 
-		webEndpoint := terraform.Output(t, ctx.TerratestTerraformOptions(), "web_endpoint")
+		webEndpoint := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "web_endpoint")
 
 		resp, err := http.Get(webEndpoint)
 		if err != nil {
